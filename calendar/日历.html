@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			li{
+				list-style: none;
+			}
+			#box{
+				width: 420px;
+				height: 560px;
+				margin: 20px auto;
+
+			}
+			
+			.header{
+				width: 100%;
+				height: 30px;
+			}
+			.header span{
+				width: 60px;
+				height: 30px;
+				float: left;
+				cursor: pointer;
+				text-align: center;
+			}
+			.header .riqi{
+				width: 180px;
+			}
+			.clock{
+				width: 100%;
+				height: 30px;
+				text-align: center;
+			}
+			.week{
+				width: 100%;
+				font-weight: bold;
+				height: 30px;
+			}
+			
+			.date{
+				width: 100%;
+				height:360px;
+				clear: both;
+			}
+			
+			.date li,.week li{
+				width: 60px;
+				height:60px;
+				float: left;
+				line-height:60px;
+				text-align: center;
+				border-radius:50% ;				
+			}
+			.active{
+				color: darkgrey;
+			}
+			.show{
+				background: greenyellow;
+			}
+			.pass{
+				opacity: 0.5;
+			}
+		</style>
+		<script type="text/javascript" src="js/jquery-2.1.0.js" ></script>
+		<script type="text/javascript" src="js/日历插件.js" ></script>
+	</head>
+	<body>
+		<div id="box">
+			
+			<!--<div class="header">
+				<span><<</span>
+				<span><</span>
+				<span class="riqi">
+				</span>
+				<span>></span>
+				<span>>></span>
+			</div>
+			<div class="clock">
+			</div>
+			<div class="week">
+				<ul class="week">
+					<li>日</li>
+					<li>一</li>
+					<li>二</li>
+					<li>三</li>
+					<li>四</li>
+					<li>五</li>
+					<li>六</li>
+				</ul>
+			</div>
+			<div class="date">
+				<ul>
+					<li class="active">27</li>
+					<li class="active">28</li>
+					<li class="active">29</li>
+					<li class="active">30</li>
+					<li class="active">31</li>
+					<li>1</li>
+					<li class="show">2</li>
+					<li>3</li>
+					<li>4</li>
+					<li>5</li>
+					<li>6</li>
+					<li>7</li>
+					<li>8</li>
+					<li>9</li>
+					<li>10</li>
+					<li>11</li>
+					<li>12</li>
+					<li>13</li>
+					<li>14</li>
+					<li>15</li>
+					<li>16</li>
+					<li>17</li>
+					<li>18</li>
+					<li>19</li>
+					<li>20</li>
+					<li>21</li>
+					<li>22</li>
+					<li>23</li>
+					<li>24</li>
+					<li>25</li>
+					<li>26</li>
+					<li>27</li>
+					<li>28</li>
+					<li>29</li>
+					<li>30</li>
+					
+				</ul>
+				
+			</div>-->
+			
+		</div>
+		
+		<script type="text/javascript">
+			$('#box').Data()
+//			setInterval(function(){
+//				var newDate=new Date();
+//				var year=newDate.getFullYear();
+//				var month=(newDate.getMonth()+1)<10?"0"+(newDate.getMonth()+1):newDate.getMonth()+1;
+//				var day=newDate.getDate()<10?"0"+newDate.getDate():newDate.getDate();
+//				var hours=newDate.getHours()<10?"0"+newDate.getHours():newDate.getHours();
+//				var minuts=newDate.getMinutes()<10?"0"+newDate.getMinutes():newDate.getMinutes();
+//				var seconds=newDate.getSeconds()<10?"0"+newDate.getSeconds():newDate.getSeconds();
+//				
+//				$('.header .riqi').html(year+'-'+month+'-'+day)
+//				$('.clock').html(hours+':'+minuts+':'+seconds+" ")
+//			},1000)
+ 
+		</script>
+	</body>
+</html>
