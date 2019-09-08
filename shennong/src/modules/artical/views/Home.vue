@@ -19,7 +19,7 @@
                 </ul>
                 <div class="btn-edit-del">
                     <span>编辑</span>
-                    <!-- <span>删除</span> -->
+                    <span>删除</span>
                 </div>
               </div>
 
@@ -44,7 +44,7 @@
                 </ul>
                 <div class="btn-edit-del">
                     <span>编辑</span>
-                    <!-- <span>删除</span> -->
+                    <span>删除</span>
                 </div>
               </div>
 
@@ -59,7 +59,7 @@
                 </ul>
                 <div class="btn-edit-del">
                     <span>编辑</span>
-                    <!-- <span>删除</span> -->
+                    <span>删除</span>
                 </div>
               </div>
 

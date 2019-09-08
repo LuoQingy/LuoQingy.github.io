@@ -13,6 +13,16 @@ export const routes = [
     },
     icon: 'el-icon-menu',
     children: [
+        
+        {
+            path: '/home/management',
+            name: 'pagemanagement',
+            icon: 'el-icon-menu',
+            component: () => import("@/modules/artical/views/page-management.vue"),
+            meta: {
+                title: '页面管理'
+            }
+        },
         {
             path: '/home/index',
             name: 'home',

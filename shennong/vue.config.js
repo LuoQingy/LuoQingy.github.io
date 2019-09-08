@@ -4,8 +4,8 @@ module.exports = {
         open: true,
         port: 8080,
         proxy: {
-            '/a':{
-                target: 'http://wap.prculture.cn',
+            '/admin':{
+                target: 'http://diy.lssnst.com/index.php',
                 ws: true,
                 changeOrigin: true
             },

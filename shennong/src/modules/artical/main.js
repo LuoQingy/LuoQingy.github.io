@@ -7,14 +7,16 @@ import 'element-ui/lib/theme-chalk/index.css';    // 默认主题
 
 Vue.use(ElementUI, {size: 'small'});
 
-
+let baseUrl = '';
+if(process.env.NODE_ENV === 'development'){
+    baseUrl = ''
+    
+}
+//'http://diy.lssnst.com/index.php/mobile/index/index?pageId=1'
 Vue.prototype.$http = Axios.create({
-    headers: {
-      "If-Modified-Since": "0",
-      "Cache-Control":"no-cache"
-    }
+    baseURL:baseUrl
 });
-//Vue.prototype.$http = Axios;
+console.log(process.env)
 
 Vue.config.productionTip = false
 console.log(router)
