@@ -4,11 +4,11 @@
           <div class="phone-header"></div>
           <div class="phone-body">
             <!-- 标题 -->
-            <div class="phone-title" @click="selectEvent(0)">{{form.title}}</div>
+            <div class="phone-title" @click="selectEvent(0)">乐山神农生态农场</div>
 
-            <div class="phone-main" :style="'background:'+allBackground">
+            <div class="phone-main" :style="phoneMainStyle">
 
-              <div class="drag " ref='firstContent' :class="controlList[1].className" v-if="controlList[1].existCheck" @click="selectEvent(1)">
+              <div class="drag " :class="controlList[1].className" @click="selectEvent(1)">
                 <ul class="fui-picture">
                   <li>
                     <img src="./../../../assets/image/shen1.gif" alt="">
@@ -17,60 +17,27 @@
                     <img src="./../../../assets/image/shen2.jpg" alt="">
                   </li>
                 </ul>
-                <div class="btn-edit-del">
-                    <span>编辑</span>
-                    <!-- <span>删除</span> -->
-                </div>
               </div>
 
-              <!-- <div class="drag " ref='secondContent' :class="controlList[2].className" v-if="controlList[2].existCheck" @click="selectEvent(2)">
+              <div class="drag " :class="controlList[2].className" @click="selectEvent(2)">
                 <div class="fui-picture">
 
                 </div>
-                <div class="btn-edit-del">
-                    <span>编辑</span>
-                    <span>删除</span>
-                </div>
-              </div> -->
-
-              <div class="drag " ref='thirdContent' :class="controlList[3].className" v-if="controlList[2].existCheck" @click="selectEvent(2)">
-                <ul class="fui-picture">
-                  <li>
-                    <img src="./../../../assets/image/shen6.gif" alt="">
-                  </li>
-                  <li>
-                    <img src="./../../../assets/image/shen7.jpg" alt="">
-                  </li>
-                </ul>
-                <div class="btn-edit-del">
-                    <span>编辑</span>
-                    <!-- <span>删除</span> -->
-                </div>
               </div>
 
-              <div class="drag " ref='thirdContent' :class="controlList[3].className" v-if="controlList[3].existCheck" @click="selectEvent(3)">
-                <ul class="fui-picture">
-                  <li>
-                    <img src="./../../../assets/image/shen6.gif" alt="">
-                  </li>
-                  <li>
-                    <img src="./../../../assets/image/shen7.jpg" alt="">
-                  </li>
-                </ul>
-                <div class="btn-edit-del">
-                    <span>编辑</span>
-                    <!-- <span>删除</span> -->
+              <div class="drag " :class="controlList[3].className" @click="selectEvent(3)">
+                <div class="fui-picture">
+
                 </div>
               </div>
 
             </div>
           </div>
         </div>
-
         <div class="pc-editor" :style="'margin-top:'+marginTop">
+          <!-- 标题 -->
           <div class="all-component" >
             <div class="editor-arrow"></div>
-            <!-- 标题控件 -->
             <div  v-if="controlList[0].check">
               <el-form ref="form" :model="form" label-width="80px">
                 <el-form-item label="页面名称">
@@ -82,41 +49,13 @@
                 </el-form-item>
                 <el-form-item label="背景颜色">
                   <template>
-                    <div class="background-control contorl-compontent">
+                    <div class="background-control">
                       <el-color-picker v-model="form.color" style='width:40px;' @change='colorEvent'  ></el-color-picker>
                       <el-button  @click="reset">重置</el-button>
                     </div>
                   </template>
                 </el-form-item>
               </el-form>
-            </div>
-
-            <div  v-if="controlList[1].check">
-              <el-form ref="form" :model="firstObj" label-width="80px">
-                <el-form-item label="上下边距">
-                  <div class="contorl-compontent">
-                    <el-slider v-model="firstObj.upperLowerPadding" :max='50' style="width:240px; "></el-slider>
-                    <span style="padding-left:26px;">{{firstObj.upperLowerPadding}}px(像素)</span>
-                  </div>
-                </el-form-item>
-                <el-form-item label="左右边距">
-                  <div class="contorl-compontent">
-                    <el-slider v-model="firstObj.leftRightPadding" :max='50' style="width:240px;"></el-slider> 
-                    <span style="padding-left:26px;">{{firstObj.leftRightPadding}}px(像素)</span>
-                  </div>
-                </el-form-item>
-                <el-form-item label="背景颜色">
-                  <template>
-                    <div class="background-control contorl-compontent">
-                      <el-color-picker v-model="firstObj.color" style='width:40px;' @change='colorEvent' ></el-color-picker>
-                      <el-button  @click="reset">重置</el-button>
-                    </div>
-                  </template>
-                </el-form-item>
-              </el-form>
-              <div v-for="(i,ind) in count" :key="ind" style="height:90px">
-                  {{ i }}
-              </div>
             </div>
           </div>
         </div>
@@ -128,75 +67,38 @@ export default {
   data() {
     return {
       form: {
-        name: '乐山神农生态馆',
-        title:'乐山神农生态农场',
+        name: '',
+        title:'',
         color:'#fafafa',
         color1:'#fafafa'
       },
-      firstObj:{
-        upperLowerPadding:0,//上下边距
-        leftRightPadding:0,//左右边距
-        color:'#fafafa',
-        color1:'#fafafa',
-        list:[
-          {src:require('./../../../assets/image/shen1.gif'),httpUrl:'assets/image/shen1.gif'},
-          {src:require('./../../../assets/image/shen2.jpg'),httpUrl:'assets/image/shen1.gif'}
-        ]
+      phoneMainStyle:{//全局的背景颜色
+        background:'#fafafa',
+        
       },
-      count:2,
-      allBackground:'#fafafa',//全局背景色
       marginTop:'55px',//编辑的顶部高度
       controlList:[
-        {className:'',check:true,existCheck:true},
-        {className:'',check:false,existCheck:true},
-        {className:'',check:false,existCheck:true},
-        {className:'',check:false,existCheck:true},
+        {className:'',check:true,},
+        {className:'',check:false,},
+        {className:'',check:false,},
+        {className:'',check:false,},
       ],
     };
   },
   methods: {
     reset(){//重置
       this.form.color = '#fafafa';
-      this.allBackground = this.form.color;
+      this.phoneMainStyle.background = this.form.color;
     },
     colorEvent(){//背景颜色选择
       console.log(this.form.color);
-      this.allBackground = this.form.color;
-    },
-    marginEvent(ev){
-      if(ev==0){
-        this.marginTop = '55px';
-      }else if(ev==1){
-        this.marginTop = '105px';
-      }else if(ev==2){
-        try {
-          let height = this.$refs.firstContent.offsetHeight + 105;
-          this.marginTop = height + 'px';
-        } catch (error) {
-          this.marginTop = '105px';
-        }
-        //console.log(this.$refs.firstContent.offsetHeight)
-      }else if(ev==3){
-        try {
-          let height =  105;
-          if(this.$refs.firstContent.offsetHeight){
-              height += this.$refs.firstContent.offsetHeight
-          }
-          if(this.$refs.secondContent.offsetHeight){
-              height += this.$refs.secondContent.offsetHeight
-          }
-          this.marginTop = height + 'px';
-        } catch (error) {
-          this.marginTop = '105px';
-        }
-      }
+      this.phoneMainStyle.background = this.form.color;
     },
     selectEvent(ev){//选中那个模块
       this.controlList.forEach((item,index) => {
         item.className = '';
         item.check = false;
       });
-      this.marginEvent(ev);
       this.controlList[ev].className ='selected';
       this.controlList[ev].check = true;
     }
@@ -215,7 +117,6 @@ export default {
   display: flex;
   margin-top: 50px;
   display: -webkit-flex;
-  overflow: auto;
   .pc-phone{
     width: 328px;
     height: auto;
@@ -289,7 +190,6 @@ export default {
             padding: 0;
             height: auto;
             overflow: hidden;
-            min-height: 100px;
             li img{
               display: block;
               width: 100%;
@@ -306,30 +206,6 @@ export default {
             cursor: move;
             z-index: 10;
           }
-           &:hover .btn-edit-del{
-             display: block;
-           }
-          .btn-edit-del{
-            height: 16px;
-            position: absolute;
-            right: 2px;
-            bottom: 2px;
-            display: none;
-            span{
-              width: 32px;
-              height: 16px;
-              line-height: 16px;
-              display: inline-block;
-              text-align: center;
-              font-size: 10px;
-              color: #fff;
-              background: rgba(0,0,0,.4);
-              margin-left: 2px;
-              cursor: pointer;
-              position: relative;
-              z-index: 11;
-            }
-          }
         }
         .selected{
           &:before{
@@ -343,9 +219,6 @@ export default {
             cursor: move;
             z-index: 10;
             box-sizing: border-box;
-          }
-          .btn-edit-del{
-            display: block;
           }
         }
       }
@@ -398,8 +271,6 @@ export default {
       }
       .background-control{
         width: 130px;
-      }
-      .contorl-compontent{
         display: flex;
         display: -webkit-flex;
       }

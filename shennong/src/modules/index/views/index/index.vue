@@ -1,36 +1,12 @@
 <template>
   <div class="mescroll"  id="mescroll">
     <div style="padding:0 0px;">
-        <template v-for="(item, index) in dataList">
-          <section
-            :key="index"
-            class="news-item"
-            :class="!item.images || item.images.length >= 3? 'news-item-s2': 'news-item-s1' "
-          >
-          <modular-second
-              v-if="!item.images || item.images.length >= 3"
-              :itemContent="item"
-            ></modular-second>
-            <modular-first v-else :itemContent="item"></modular-first>
-          </section>
-
-          <template >
-            <ad-box :key="index" :adSrc="$root.adSrcList[getAdIndex(index)]['src']"
-              :adClass="$root.adSrcList[getAdIndex(index)]['class']" border></ad-box>
-          </template>
-
-        </template>
+       手机端
     </div>
-    <youmengsys :key="reIndexyoumeng" v-if="startSys" :adSrc="$root.youmengsrc" :iframeSrc="$root.iframe4g"></youmengsys>
   </div>
 </template>
 <script>
-import modularFirst from '@/components/modular/modularFirst'
-import modularSecond from '@/components/modular/modularSecond'
-import adBox from '@/components/adBox.vue'
-import youmengsys from "@/components/youmengsys.vue"
 export default {
-    components: { modularFirst, modularSecond,adBox,youmengsys},
     data(){
         return{
             mescroll:null,
@@ -43,40 +19,14 @@ export default {
             loopIndex: 0, //当前循环次数
 
             dataList: [],//数据列表
-            startSys: false,
-            reIndexyoumeng: 1,
-            judgeAreaSwitch: true,
         }
     },
     async mounted(){
      
-        this.mescrollEvent();//初始化
-        if(this.judgeAreaSwitch) {
-          this.judgeArea()//栏目判断
-        }
-        await this.getDataList(this.$route.params.type);
-        this.judgeAreaSwitch = true;
-        this.startSys = false
-        this.startSys = true
+       
     },
     watch: {
-        $route: async function (to, from) {
-            // 监控导航栏点击事件导致的路由切换
-            if (to.name === "Home" && from.name === "Home") {
-                this.$set(this, 'reIndexyoumeng', this.reIndexyoumeng + 1)
-                console.log('switch',new Date().getTime());
-                if(this.judgeAreaSwitch) {
-                  this.judgeArea()//栏目判断
-                }
-                this.loadingDialog("show")
-                document.querySelector(".mescroll-upwarp").style.display = "none";
-                this.loadingDialog("show"); 
-                clearTimeout(this.stepTimer)
-                this.scollToTop();
-                this.getDataList(to.params.type)
-                
-            }
-        }
+       
     },
     methods: {
         mescrollEvent(){
@@ -179,12 +129,7 @@ export default {
         },
 
         upCallback() {//上拉加载的回调
-            let type = this.$root.type;//刷新的类型
-            // this.log('dataList',this.dataList)
-            if(this.dataList.length>0){
-                let beforeId = this.dataList[this.dataList.length - 1].id;//刷新前列表最后广告id
-                this.getDataList(type, beforeId, true);
-            }
+           
         },
 
         scollToTop() { //滚动到顶部
@@ -202,45 +147,7 @@ export default {
               this.getRandomStep()
             }, randomStep)
           }
-        },
-
-        getAdIndex(index) { //计算当前广告组件index
-            return index%this.$root.adSrcList.length;
-        },
-        judgeArea() {
-          if(this.$route.params.type != undefined&&this.$root.cityObj['city']) {
-            //直接有路由的情况打开网页的情况
-            if(this.$root.cityObj['city'] != this.$route.params.type) {
-              let arr = this.$root.newsList.indexOf(this.$route.params.type)
-              //console.log(this.$root.newsList)
-              console.log
-              if(arr == -1) {
-                // let query = this.$route.params.type;
-                let path = this.$route.path;
-                console.log(path.split('/'))
-                console.log(path)
-                if(path.indexOf("index") != -1) {//首页
-                  console.log(136)
-                  this.$router.replace({ name: 'Home', params: { 'type': this.$root.cityObj['city'] } })
-                } else {//详情页面
-                  console.log("详情页面打开")
-                }
-              }
-            } else {
-              let type = this.$root.newsList[Math.floor(Math.random() * this.$root.newsList.length)]
-              //this.$router.replace({ name: 'Home', params: { 'type': type } })
-            }
-          } else {
-            console.log("首页直接进行的跳转路由")
-            let arr2 = this.$root.newsList.indexOf(this.$route.params.type)
-            if(arr2 == -1) {
-              let type = this.$root.newsList[Math.floor(Math.random() * this.$root.newsList.length)]
-              this.$router.replace({ name: 'Home', params: { 'type': type } })
-              this.judgeAreaSwitch = false
-            }
-            
-          }
-        }
+        },      
     },
     beforeDestroy(){
       clearTimeout(this.timer);
@@ -252,7 +159,7 @@ export default {
 <style lang="less">
 .mescroll {
   position: fixed;
-  top: 45px;
+  top: 0px;
   bottom: 0;
   height: auto;
   max-width: 750px;

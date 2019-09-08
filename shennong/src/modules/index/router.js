@@ -15,12 +15,13 @@ const routes = [
         component: () => import("@/modules/index/views/Home.vue"),
         children: [
             {
-                path: "index/:type",
+                path: "index",
                 name: "Home",
                 component: () =>  import("@/modules/index/views/index/index.vue"),
             }
         ]
     },
+    { path: '*', redirect: '/home/index', hidden: true }
 ]
 
 export default new VueRouter({
