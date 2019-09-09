@@ -1,5 +1,4 @@
 <template>
-import { nextTick } from 'q';
     <div style="padding:50px 50px;">
         <el-table
             
@@ -35,19 +34,20 @@ import { nextTick } from 'q';
                   <el-button type="primary" icon="el-icon-edit">编辑</el-button>
                   <el-button type="danger" @click="openDelete(scope.row.id)" icon="el-icon-delete">删除</el-button>
                   <el-tooltip class="item" effect="dark" content="复制链接" placement="bottom-start">
-                    <el-button style="margin:0px 5px;" icon="el-icon-link"></el-button>
+                    <el-button :id="'link'+scope.row.id" style="margin:0px 5px;" @click="fnCopy(scope.row.id)" icon="el-icon-link"></el-button>
                   </el-tooltip>
                   <el-popover
                     placement="right-start"
                     width="150"
                     trigger="hover">
-                    <div :id="'qrcode'+scope.row.id" class="qrcode"></div>
+                    <div :id="'qrcode'+scope.row.id" class="qrcodeClass"></div>
                     <el-button slot="reference" icon="el-icon-menu"></el-button>
                   </el-popover>
               </template>
             </el-table-column>
 
         </el-table>
+        <div id="yuLink" style="opacity: 0;"></div>
     </div>
 </template>
 
@@ -58,23 +58,6 @@ import QRCode from 'qrcodejs2'
       return {
         tableData: [],
         multipleSelection: [],
-        gridData: [{
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }]
       }
     },
 
@@ -105,13 +88,51 @@ import QRCode from 'qrcodejs2'
             console.log(err)
         })
       },
+
+      fnCopy(pageId){
+          console.log(pageId)
+          var copyContent = document.getElementById('yuLink');
+          copyContent.innerHTML = 'http://diy.lssnst.com/index.php/mobile/index/index?pageId='+pageId
+          if(document.body.createTextRange) { // 该属性只有IE支持
+            var range = document.body.createTextRange();
+            range.moveToElementText(copyContent);
+            // console.log(copyContent)
+            range.select();
+            document.execCommand('Copy');//是否复制 返回的是一个true 或者false
+            //alert('已复制1');
+             this.$message({
+              type: 'success',
+              message: '复制成功!'
+            });
+          }else if (window.getSelection) {
+            var selection = window.getSelection();
+            selection.removeAllRanges();
+            var range = document.createRange();
+            //document.execCommand('selectAll')//全选
+            range.selectNodeContents(copyContent);
+            selection.addRange(range);
+            document.execCommand('Copy');//是否复制 返回的是一个true 或者false
+            if(document.execCommand('Copy')){
+                 console.log(copyContent);
+            }
+            
+            selection.removeAllRanges();
+            //alert('已复制2');
+            this.$message({
+              type: 'success',
+              message: '复制成功!'
+            });
+          }
+          //console.log(document.execCommand('Copy'))
+      },
       qrcode(pageId){//生成二维码
           let id = 'qrcode'+pageId;
-          let qrcode = new QRCode('qrcode', {
-            width: '140px',
-            height:'140px', // 高度
-            text:pageId, // 二维码内容
-        })
+          console.log(pageId,id)
+          new QRCode(id, {
+            width: '140',
+            height:'140', // 高度
+            text:'http://diy.lssnst.com/index.php/mobile/index/index?pageId='+pageId, // 二维码内容
+          })
       },
       openDelete(pageId){
         this.$confirm('确定要删除该页面吗？', '提示', {
@@ -164,8 +185,9 @@ import QRCode from 'qrcodejs2'
 </script>
 
 <style lang="less" scoped>
-.qrcode{
+.qrcodeClass{
   width: 140px;
   height: 140px;
+  background: greenyellow;
 }
 </style>

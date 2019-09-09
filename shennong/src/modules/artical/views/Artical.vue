@@ -25,9 +25,18 @@
                 </div>
               </div>
 
-              <div class="drag " :class="controlList[3].className" @click="selectEvent(3)">
-                <div class="fui-picture">
-
+              <div class="drag " ref='thirdContent' :class="controlList[3].className" v-if="controlList[3].existCheck" @click="selectEvent(3)">
+                <ul class="fui-picture">
+                  <li>
+                    <img src="./../../../assets/image/shen6.gif" alt="">
+                  </li>
+                  <li>
+                    <img src="./../../../assets/image/shen7.jpg" alt="">
+                  </li>
+                </ul>
+                <div class="btn-edit-del">
+                    <span>编辑</span>
+                    <span>删除</span>
                 </div>
               </div>
 

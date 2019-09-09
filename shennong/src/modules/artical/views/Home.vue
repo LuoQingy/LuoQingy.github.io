@@ -1,130 +1,68 @@
 <template>
     <div class="homeClass">
-        <div class="pc-phone">
-          <div class="phone-header"></div>
-          <div class="phone-body">
-            <!-- 标题 -->
-            <div class="phone-title" @click="selectEvent(0)">{{form.title}}</div>
+        <div>
+          <div class="pc-phone">
 
-            <div class="phone-main" :style="'background:'+allBackground">
+            <div class="phone-header"></div>
 
-              <div class="drag " ref='firstContent' :class="controlList[1].className" v-if="controlList[1].existCheck" @click="selectEvent(1)">
-                <ul class="fui-picture">
-                  <li>
-                    <img src="./../../../assets/image/shen1.gif" alt="">
-                  </li>
-                  <li>
-                    <img src="./../../../assets/image/shen2.jpg" alt="">
-                  </li>
-                </ul>
-                <div class="btn-edit-del">
-                    <span>编辑</span>
-                    <span>删除</span>
-                </div>
-              </div>
-
-              <!-- <div class="drag " ref='secondContent' :class="controlList[2].className" v-if="controlList[2].existCheck" @click="selectEvent(2)">
-                <div class="fui-picture">
-
-                </div>
-                <div class="btn-edit-del">
-                    <span>编辑</span>
-                    <span>删除</span>
-                </div>
-              </div> -->
-
-              <div class="drag " ref='thirdContent' :class="controlList[3].className" v-if="controlList[2].existCheck" @click="selectEvent(2)">
-                <ul class="fui-picture">
-                  <li>
-                    <img src="./../../../assets/image/shen6.gif" alt="">
-                  </li>
-                  <li>
-                    <img src="./../../../assets/image/shen7.jpg" alt="">
-                  </li>
-                </ul>
-                <div class="btn-edit-del">
-                    <span>编辑</span>
-                    <span>删除</span>
-                </div>
-              </div>
-
-              <div class="drag " ref='thirdContent' :class="controlList[3].className" v-if="controlList[3].existCheck" @click="selectEvent(3)">
-                <ul class="fui-picture">
-                  <li>
-                    <img src="./../../../assets/image/shen6.gif" alt="">
-                  </li>
-                  <li>
-                    <img src="./../../../assets/image/shen7.jpg" alt="">
-                  </li>
-                </ul>
-                <div class="btn-edit-del">
-                    <span>编辑</span>
-                    <span>删除</span>
-                </div>
+            <div class="phone-body">
+              <!-- 标题 --> 
+              <div @click="selectEvent(0)">
+                <title-component :form='form' ></title-component>
+              </div>  
+              <!-- 内容 -->
+              <div class="phone-main" :style="'background:'+allBackground">
+                <template v-for="(item,index) in listCompontent" >
+                  <div class="drag " :id="'secondContent'+index" :key="index" :class="controlList[index+1].className"  @click="selectEvent(index+1)">
+                    <div :is="item.component_type|getPage" :itemContent='item'></div>  
+                    <div class="btn-edit-del">
+                        <span>编辑</span>
+                        <span>删除</span>
+                    </div>
+                  </div>
+                </template>
               </div>
 
             </div>
+
+            <div class="phone-foot"> </div>
           </div>
         </div>
+
+        
 
         <div class="pc-editor" :style="'margin-top:'+marginTop">
           <div class="all-component" >
             <div class="editor-arrow"></div>
             <!-- 标题控件 -->
             <div  v-if="controlList[0].check">
-              <el-form ref="form" :model="form" label-width="80px">
-                <el-form-item label="页面名称">
-                  <el-input v-model="form.name" style="max-width:320px;" placeholder="请输入名称"></el-input>
-                  <div style="font-size:12px;">注意：页面名称是便于后台查找，页面标题是手机端标题。</div>
-                </el-form-item>
-                <el-form-item label="页面标题">
-                  <el-input v-model="form.title" style="max-width:320px;" placeholder="请输入标题"></el-input>
-                </el-form-item>
-                <el-form-item label="背景颜色">
-                  <template>
-                    <div class="background-control contorl-compontent">
-                      <el-color-picker v-model="form.color" style='width:40px;' @change='colorEvent'  ></el-color-picker>
-                      <el-button  @click="reset">重置</el-button>
-                    </div>
-                  </template>
-                </el-form-item>
-              </el-form>
+              <edit-title :form='form'></edit-title>
             </div>
 
-            <div  v-if="controlList[1].check">
-              <el-form ref="form" :model="firstObj" label-width="80px">
-                <el-form-item label="上下边距">
-                  <div class="contorl-compontent">
-                    <el-slider v-model="firstObj.upperLowerPadding" :max='50' style="width:240px; "></el-slider>
-                    <span style="padding-left:26px;">{{firstObj.upperLowerPadding}}px(像素)</span>
-                  </div>
-                </el-form-item>
-                <el-form-item label="左右边距">
-                  <div class="contorl-compontent">
-                    <el-slider v-model="firstObj.leftRightPadding" :max='50' style="width:240px;"></el-slider> 
-                    <span style="padding-left:26px;">{{firstObj.leftRightPadding}}px(像素)</span>
-                  </div>
-                </el-form-item>
-                <el-form-item label="背景颜色">
-                  <template>
-                    <div class="background-control contorl-compontent">
-                      <el-color-picker v-model="firstObj.color" style='width:40px;' @change='colorEvent' ></el-color-picker>
-                      <el-button  @click="reset">重置</el-button>
-                    </div>
-                  </template>
-                </el-form-item>
-              </el-form>
-              <div v-for="(i,ind) in count" :key="ind" style="height:90px">
-                  {{ i }}
-              </div>
-            </div>
+            <template v-for="(item,index) in listCompontent" >
+              <div :is="item.component_type|getCom" :itemContent='item'  v-if="controlList[index+1].check" :key="index"></div>
+            </template>
           </div>
         </div>
     </div>
 </template>
   
 <script>
+import titleComponent from "@/modules/artical/components/title-component.vue"
+import editTitle from "@/modules/artical/components/edit-title.vue"
+import singleImageGroup from "@/modules/artical/components/single-image-group.vue"
+import editSingleImageGroup from "@/modules/artical/components/edit-single-image-group.vue"
+import imageWindowGroup from "@/modules/artical/components/image-window-group.vue"
+import editImageWindowGroup from "@/modules/artical/components/edit-image-window-group.vue"
+import imageUnfoldGroup from "@/modules/artical/components/image-unfold-group.vue"
+import editImageUnfoldGroup from  "@/modules/artical/components/edit-image-unfold-group.vue"
 export default {
+  
+  components: {
+    titleComponent,editTitle,editSingleImageGroup,
+    singleImageGroup,imageWindowGroup,editImageWindowGroup,
+    imageUnfoldGroup,editImageUnfoldGroup,
+  },
   data() {
     return {
       form: {
@@ -133,17 +71,51 @@ export default {
         color:'#fafafa',
         color1:'#fafafa'
       },
-      firstObj:{
-        upperLowerPadding:0,//上下边距
-        leftRightPadding:0,//左右边距
-        color:'#fafafa',
-        color1:'#fafafa',
-        list:[
-          {src:require('./../../../assets/image/shen1.gif'),httpUrl:'assets/image/shen1.gif'},
-          {src:require('./../../../assets/image/shen2.jpg'),httpUrl:'assets/image/shen1.gif'}
-        ]
-      },
-      count:2,
+      listCompontent:[
+        {
+          "component_type": "single_image_group", //单图组
+          "margin_top_bottom": 0,
+          "margin_left_right":0,
+          "background_color":"#ffffff",
+          "layout":null,
+          "rank":1,//排序值，越小越在前
+          "component_detail":{
+            'image_list':[
+              {'image_url':require('./../../../assets/image/shen1.gif'),'to_url':'assets/image/shen1.gif'},
+              {'image_url':require('./../../../assets/image/shen2.jpg'),'to_url':'assets/image/shen1.gif'}
+            ]
+          }
+        },
+        {
+          "component_type": "image_window_group",//图片橱窗
+          "margin_top_bottom": 0,
+          "margin_left_right":0,
+          "background_color":"#ffffff",
+          "layout":'three_column',
+          "rank":2,//排序值，越小越在前
+          "component_detail":{
+            'image_list':[
+              {'image_url':require('./../../../assets/image/shen3.gif'),'to_url':'assets/image/shen3.gif'},
+              {'image_url':require('./../../../assets/image/shen4.gif'),'to_url':'assets/image/shen4.gif'},
+              {'image_url':require('./../../../assets/image/shen5.jpg'),'to_url':'assets/image/shen5.jpg'},
+            ]
+          }
+        },
+        {
+          "component_type": "image_unfold_group",//图片展播
+          "margin_top_bottom": 0,
+          "margin_left_right":0,
+          "background_color":"#ffffff",
+          "layout":'three_column',
+          "rank":1,//排序值，越小越在前
+          "component_detail":{
+            'image_list':[
+              {'image_url':require('./../../../assets/image/shen6.gif'),'to_url':'assets/image/shen6.gif'},
+              {'image_url':require('./../../../assets/image/shen7.jpg'),'to_url':'assets/image/shen7.gif'},
+            ]
+          }
+        },
+      ],
       allBackground:'#fafafa',//全局背景色
       marginTop:'55px',//编辑的顶部高度
       controlList:[
@@ -163,34 +135,28 @@ export default {
       console.log(this.form.color);
       this.allBackground = this.form.color;
     },
+
     marginEvent(ev){
       if(ev==0){
         this.marginTop = '55px';
       }else if(ev==1){
         this.marginTop = '105px';
-      }else if(ev==2){
-        try {
-          let height = this.$refs.firstContent.offsetHeight + 105;
-          this.marginTop = height + 'px';
-        } catch (error) {
-          this.marginTop = '105px';
+      }else if(ev>=2){
+        let heightOne = 0;
+        //console.log(ev)
+        for(let i =0;i<ev-1;i++){
+          let id = "secondContent"+i;
+          heightOne  += document.getElementById(id).offsetHeight;
+          //console.log(heightOne)
         }
+        //console.log(heightOne)
+        let height = heightOne + 105;
+        //console.log(height)
+        this.marginTop = height + 'px';
         //console.log(this.$refs.firstContent.offsetHeight)
-      }else if(ev==3){
-        try {
-          let height =  105;
-          if(this.$refs.firstContent.offsetHeight){
-              height += this.$refs.firstContent.offsetHeight
-          }
-          if(this.$refs.secondContent.offsetHeight){
-              height += this.$refs.secondContent.offsetHeight
-          }
-          this.marginTop = height + 'px';
-        } catch (error) {
-          this.marginTop = '105px';
-        }
       }
     },
+
     selectEvent(ev){//选中那个模块
       this.controlList.forEach((item,index) => {
         item.className = '';
@@ -199,15 +165,49 @@ export default {
       this.marginEvent(ev);
       this.controlList[ev].className ='selected';
       this.controlList[ev].check = true;
-    }
+    },
+
   },
   mounted() {
    
+  },
+  filters: {
+    getCom(id) {
+      let component;
+      switch (id) {
+        case 'single_image_group':
+          component = "editSingleImageGroup";
+          break;
+        case 'image_window_group':
+          component = "editImageWindowGroup";
+          break;
+        case 'image_unfold_group':
+          component = "editImageUnfoldGroup";
+          break;
+      }
+      return component;
+    },
+    getPage(id) {
+      let component;
+      switch (id) {
+        case 'single_image_group':
+          component = "singleImageGroup";
+          break;
+        case 'image_window_group':
+          component = "imageWindowGroup";
+          break;
+        case 'image_unfold_group':
+          component = "imageUnfoldGroup";
+          break;
+      }
+      return component;
+    }
   }
 };
 </script>
   
-<style scoped lang="less">
+<style  lang="less">
+
 .homeClass{
   width: 840px;
   
@@ -218,14 +218,14 @@ export default {
   overflow: auto;
   .pc-phone{
     width: 328px;
-    height: auto;
+    // height: auto;
     border: 1px solid #ddd;
     border-radius: 10px;
     background: #fff;
     padding: 10px;
     overflow: hidden;
     margin-bottom: 150px;
-    
+    box-sizing: border-box;
     .phone-header{
       height: 44px;
       background: #fff;
@@ -283,17 +283,8 @@ export default {
           min-height: 20px;
           display: block;
           overflow: hidden;
-          .fui-picture{
-            display: block;
-            margin: 0;
-            padding: 0;
-            height: auto;
-            overflow: hidden;
-            min-height: 100px;
-            li img{
-              display: block;
-              width: 100%;
-            }
+          li{
+            list-style: none;
           }
           &:hover:before{
             content: "";
@@ -349,6 +340,13 @@ export default {
           }
         }
       }
+    }
+    .phone-foot{
+      height: 24px;
+      width: 60px;
+      margin: 15px auto 5px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
     }
   }
   .pc-editor{

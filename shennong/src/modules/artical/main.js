@@ -4,6 +4,7 @@ import router from './router/index'
 import Axios from 'axios';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';    // 默认主题
+import './../../assets/styles/border.css'
 
 Vue.use(ElementUI, {size: 'small'});
 
