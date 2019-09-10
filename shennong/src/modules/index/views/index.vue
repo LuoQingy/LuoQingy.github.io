@@ -9,7 +9,7 @@
   </div>
 </template>
 <script>
-import singleImageGroup from "@/modules/artical/components/single-image-group.vue"
+import singleImageGroup from "@/modules/index/components/single-image-group.vue"
 
 import imageWindowGroup from "@/modules/index/components/image-window-group.vue"
 

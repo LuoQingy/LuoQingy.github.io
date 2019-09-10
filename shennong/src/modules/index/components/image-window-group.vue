@@ -1,7 +1,7 @@
 <template>
   <div >
     <div class="fui-picture"  :style="top_bottomEvent" :class="(itemContent.component_detail.image_list.length>4&&itemContent.layout=='window')?'new-fui-picture':''">
-      <div v-for="(item,index) in itemContent.component_detail.image_list" :class="className(index)" class="item"   :style="paddingEvent" :key="index" >
+      <div v-for="(item,index) in itemContent.component_detail.image_list" :class="className(index)" class="item" @click="routerTo(to_url)"  :style="paddingEvent" :key="index" >
         <img :src="item.image_url" v-if="item.image_url" alt="">
       </div>
     </div>
@@ -40,6 +40,9 @@ export default {
       console.log(num)
       return this.itemContent.layout=='window'?num:this.itemContent.layout
     },
+    routerTo(src){
+      window.location.href = src;
+    }
   },
   computed:{
     
