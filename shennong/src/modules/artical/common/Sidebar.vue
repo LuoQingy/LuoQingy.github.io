@@ -22,7 +22,7 @@
             </template>
           </el-submenu>
         </template>
-        <template v-else-if="item.children">
+        <template v-else-if="item.children ">
           <el-menu-item :index="item.children[0].path" :key="item.children[0].path">
             <!-- <i :class="item.children[0].icon"></i> -->
             <img class="img" :src="item.children[0].imgurl" alt="">

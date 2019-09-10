@@ -12,11 +12,18 @@ Fastclick.attach(document.body);
 import loadingDialog from './../../plugin/loadingDialog';
 Vue.prototype.loadingDialog = loadingDialog;
 
+let baseUrl = '';
+if(process.env.NODE_ENV === 'development'){
+    baseUrl = ''
+    Vue.prototype.$baseUrl = ''
+}else{
+    baseUrl = '/index.php'
+    Vue.prototype.$baseUrl = 'http://diy.lssnst.com/index.php'
+}
+
+//'http://diy.lssnst.com/index.php/mobile/index/index?pageId=1'
 Vue.prototype.$http = Axios.create({
-  headers: {
-    "If-Modified-Since": "0",
-    "Cache-Control":"no-cache"
-  }
+    baseURL:baseUrl
 });
 //Vue.prototype.$http = Axios;
 

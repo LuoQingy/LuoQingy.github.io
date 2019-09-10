@@ -9,7 +9,7 @@ export const routes = [
     path: '/home',
     component: Main,
     meta: {
-        title: '商城首页'
+        title: '管理后台'
     },
     icon: 'el-icon-menu',
     children: [
@@ -18,6 +18,7 @@ export const routes = [
             path: '/home/management',
             name: 'pagemanagement',
             icon: 'el-icon-menu',
+            ishide:false,
             component: () => import("@/modules/artical/views/page-management.vue"),
             meta: {
                 title: '页面管理'
@@ -27,20 +28,21 @@ export const routes = [
             path: '/home/index',
             name: 'home',
             icon: 'el-icon-menu',
+            ishide:true,
             component: () => import("@/modules/artical/views/home.vue"),
             meta: {
-                title: '商城首页'
+                title: '自定义页面'
             }
         },
-        {
-            path: '/home/artical',
-            name: 'artical',
-            icon: 'el-icon-menu',
-            component: () =>  import("@/modules/artical/views/Artical.vue"),
-            meta: {
-                title: '自定义'
-            }
-        }
+        // {
+        //     path: '/home/artical',
+        //     name: 'artical',
+        //     icon: 'el-icon-menu',
+        //     component: () =>  import("@/modules/artical/views/Artical.vue"),
+        //     meta: {
+        //         title: '自定义'
+        //     }
+        // }
     ]
     },
 ]

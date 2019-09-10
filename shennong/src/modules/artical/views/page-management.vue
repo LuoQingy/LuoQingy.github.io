@@ -51,6 +51,17 @@
 
         </el-table>
         <div id="yuLink" style="opacity: 0;"></div>
+        <div style="margin-top:20px;float:right;">
+          <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="form.pageNum"
+            :page-sizes="[5, 10, 20, 40]"
+            :page-size="form.pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="total">
+          </el-pagination>
+        </div>
     </div>
 </template>
 
@@ -61,12 +72,27 @@ import QRCode from 'qrcodejs2'
       return {
         tableData: [],
         multipleSelection: [],
+        total:0,
+        form:{
+          "pageNum": 1,
+          "pageSize": 5
+        }
       }
     },
 
     methods: {
       center() {
         return "text-align: center;";
+      },
+      handleSizeChange(val) {
+        console.log(`每页 ${val} 条`);
+        this.form.pageSize = val;
+        this.getPageList()
+      },
+      handleCurrentChange(val) {
+        this.form.pageNum = val;
+        this.getPageList()
+        console.log(`当前页: ${val}`);
       },
       handleSelectionChange(val) {
         this.multipleSelection = val;
@@ -76,9 +102,10 @@ import QRCode from 'qrcodejs2'
         this.$http({
             url: '/admin/page/getList',
             method: 'post',
-            data:{"pageNum": 1,"pageSize": 10}
+            data:this.form
         }).then((res)=>{
           if(res.data.code==10000){
+            this.total = res.data.data.total;
             this.tableData = res.data.data.data;
             this.$nextTick(()=>{
                 this.tableData.forEach((item,index) => {
@@ -95,7 +122,7 @@ import QRCode from 'qrcodejs2'
       fnCopy(pageId){
           console.log(pageId)
           var copyContent = document.getElementById('yuLink');
-          copyContent.innerHTML = 'http://diy.lssnst.com/index.php/mobile/index/index?pageId='+pageId
+          copyContent.innerHTML = 'http://diy.lssnst.com/index.php/mobile/index/index#/home/index?pageId='+pageId
           if(document.body.createTextRange) { // 该属性只有IE支持
             var range = document.body.createTextRange();
             range.moveToElementText(copyContent);
@@ -135,7 +162,7 @@ import QRCode from 'qrcodejs2'
           new QRCode(id, {
             width: '140',
             height:'140', // 高度
-            text:'http://diy.lssnst.com/index.php/mobile/index/index?pageId='+pageId, // 二维码内容
+            text:'http://diy.lssnst.com/index.php/mobile/index/index#/home/index?pageId='+pageId, // 二维码内容
           })
       },
 

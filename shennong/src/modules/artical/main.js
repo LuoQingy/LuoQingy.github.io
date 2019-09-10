@@ -13,6 +13,7 @@ if(process.env.NODE_ENV === 'development'){
     baseUrl = ''
     Vue.prototype.$baseUrl = ''
 }else{
+    baseUrl = '/index.php'
     Vue.prototype.$baseUrl = 'http://diy.lssnst.com/index.php'
 }
 

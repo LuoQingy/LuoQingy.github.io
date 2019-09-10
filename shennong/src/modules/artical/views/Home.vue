@@ -52,8 +52,8 @@
             <el-button icon="el-icon-plus" @click="addList('image_unfold_group')">图片展播</el-button>
           </div>
           <div class="subit-item">
-            <el-button type="warning" @click="saveAsEvent">另存为模板</el-button>
-            <el-button type="success" @click="saveEvent">保存模板</el-button>
+            <!-- <el-button type="warning" @click="saveAsEvent">另存为模板</el-button> -->
+            <el-button type="success" @click="saveEvent">保存</el-button>
             
           </div>
         </div>
@@ -216,6 +216,9 @@ export default {
             type: 'success',
             message: '保存成功!'
           });
+          this.$router.push({
+            name: 'pagemanagement',
+          })
         }else{
           this.$message({
             type: 'err',
@@ -232,7 +235,7 @@ export default {
       if(this.pageId){
         this.updateEvent()
       }else{
-        this.component_typesaveAsEvent()
+        this.saveAsEvent()
       }
     },
 
@@ -291,6 +294,9 @@ export default {
             type: 'success',
             message: '保存成功!'
           });
+          this.$router.push({
+            name: 'pagemanagement',
+          })
         }else{
           this.$message({
             type: 'err',
