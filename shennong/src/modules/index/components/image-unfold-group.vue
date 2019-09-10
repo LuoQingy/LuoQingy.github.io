@@ -104,38 +104,38 @@ export default {
     }
   }
   .one_column{
-    height: 436px;
+    height: 12.7rem;
     width: 100%;
      .image{
-       height: 414px;
+       height: calc(12.7rem - 22px);
      }
   }
   .two_column{
-    height: 227px;
+    height: 7.2rem;
     width: 50%;
     .image{
-       height: 205px;
+       height:calc(7.2rem - 22px);
     }
   }
   .three_column{
-    height: 157px;
+    height: 5rem;
     width: 33.3%;
     .image{
-       height: 135px;
+       height:calc(5rem - 22px);
      }
   }
   .four_column{
-    height: 122px;
+    height: 3.9rem;
     width: 25%;
     .image{
-       height: 100px;
+       height: calc(3.9rem - 22px);
      }
   }
   .window{
-    height: 101px;
+    height: 3.4rem;
     width: 20%;
       .image{
-       height: 79px;
+       height:calc(3.4rem - 22px);
      }
   }
 }

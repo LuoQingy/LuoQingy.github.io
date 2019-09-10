@@ -1,5 +1,8 @@
 <template>
     <div style="padding:50px 50px;">
+        <div style="padding:20px 0px;overflow: hidden;">
+          <div style="float:right;"><el-button type="primary" icon="el-icon-plus" @click="editEvent(1,1)">新建页面</el-button> </div>
+        </div>
         <el-table
             
             :data="tableData"
@@ -31,7 +34,7 @@
             label="操作"
             show-overflow-tooltip>
               <template slot-scope="scope">
-                  <el-button type="primary" icon="el-icon-edit">编辑</el-button>
+                  <el-button type="primary" icon="el-icon-edit" @click="editEvent(scope.row.id)">编辑</el-button>
                   <el-button type="danger" @click="openDelete(scope.row.id)" icon="el-icon-delete">删除</el-button>
                   <el-tooltip class="item" effect="dark" content="复制链接" placement="bottom-start">
                     <el-button :id="'link'+scope.row.id" style="margin:0px 5px;" @click="fnCopy(scope.row.id)" icon="el-icon-link"></el-button>
@@ -113,7 +116,7 @@ import QRCode from 'qrcodejs2'
             selection.addRange(range);
             document.execCommand('Copy');//是否复制 返回的是一个true 或者false
             if(document.execCommand('Copy')){
-                 console.log(copyContent);
+                 //console.log(copyContent);
             }
             
             selection.removeAllRanges();
@@ -125,15 +128,17 @@ import QRCode from 'qrcodejs2'
           }
           //console.log(document.execCommand('Copy'))
       },
+
       qrcode(pageId){//生成二维码
           let id = 'qrcode'+pageId;
-          console.log(pageId,id)
+          //console.log(pageId,id)
           new QRCode(id, {
             width: '140',
             height:'140', // 高度
             text:'http://diy.lssnst.com/index.php/mobile/index/index?pageId='+pageId, // 二维码内容
           })
       },
+
       openDelete(pageId){
         this.$confirm('确定要删除该页面吗？', '提示', {
           confirmButtonText: '确定',
@@ -147,9 +152,9 @@ import QRCode from 'qrcodejs2'
           });          
         });
       },
+
       deletePageEvent(pageId){//删除某个页面
-        console.log(pageId)
-        return;
+        //console.log(pageId)
         this.$http({
             url: '/admin/page/delete',
             method: 'post',
@@ -161,7 +166,7 @@ import QRCode from 'qrcodejs2'
               type: 'success',
               message: '删除成功!'
             });
-          
+            this.getPageList()
           }else{
             this.$message({
               type: 'success',
@@ -177,6 +182,20 @@ import QRCode from 'qrcodejs2'
             console.log(err)
         })
       },
+
+      editEvent(pageId,ev){//编辑页面
+        if(ev==1){
+          this.$router.push({
+            name: 'home',
+          })
+        }else{
+          this.$router.push({
+            name: 'home',
+            query: { pageId:pageId}
+          })
+        }
+       
+      }
     },
     mounted(){
       this.getPageList()

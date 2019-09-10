@@ -23,23 +23,25 @@
         </el-form-item>
       </el-form>
       <div class="first-items">
+        
         <div v-for="(item,index) in itemContent.component_detail.image_list" :key="index" class="first-item">
-          <span class="btn-del" title='删除'></span>
+          <span class="btn-del el-icon-error" title='删除' @click="openDelete(index)"></span>
           <div class="item-image">
             <img :src="item.image_url" alt="">
           </div>
           <div class="item-form">
+            
             <div>
               <el-input placeholder="请选择图片或输入图片地址" style="min-width: 115px;" v-model="item.image_url">
                 <template slot="append">
-                  <el-button>选择图片</el-button>
+                  <el-button @click="dialogEvent(index)">选择图片</el-button>
                 </template>
               </el-input>
             </div>
             <div style="margin-top: 10px;">
-              <el-input placeholder="请选择链接或输入链接地址" style="min-width: 115px;"  v-model="item.to_url">
+              <el-input placeholder="请输入链接地址" style="min-width: 115px;"  v-model="item.to_url">
                 <template slot="append">
-                  <el-button>选择链接</el-button>
+                  <el-button>输入链接</el-button>
                 </template>
               </el-input>
             </div>
@@ -47,9 +49,30 @@
         </div>
 
         <div>
-            <el-button icon="el-icon-plus"> 添加一个</el-button>
+            <el-button icon="el-icon-plus" @click="openAdd"> 添加一个</el-button>
         </div>
       </div>
+
+
+      <el-dialog title="上传图片" :modal-append-to-body='false' :modal='true' :visible="dialogTableVisible" @close='dialogTableVisible=false'>
+          <div>
+            <el-upload
+              class="avatar-uploader"
+              :action="baseURL"
+              :show-file-list="false"
+              accept='image/jpeg,image/gif,image/png,image/bmp,image/webp,image/svg,image/jpg'
+              :on-remove="handleAvatarSuccess"
+              :on-success="handleAvatarSuccess"
+              :before-upload="beforeAvatarUpload">
+              <img v-if="imageUrl" :src="imageUrl" class="avatar">
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+          </div>
+          <span slot="footer" class="dialog-footer" v-if="imageUrl">
+            <el-button type="primary" @click="btnEvent">确定使用</el-button>
+            <el-button @click="dialogTableVisible = false">取 消</el-button>
+          </span>
+      </el-dialog>
   </div>
 </template>
 
@@ -63,7 +86,12 @@ export default {
     },
     data(){
       return{
-        input2:'',
+        dialogTableVisible:false,
+        recordIndex:null,
+        baseURL:this.$baseUrl+'/admin/page/upload',
+        imageUrl: '',
+        dialogVisible: false,
+        newImg:{'image_url':require('./../../../assets/image/shen2.jpg'),'to_url':'assets/image/shen1.gif'}
       }
     },
     methods:{
@@ -73,6 +101,60 @@ export default {
       colorEvent(){//背景颜色选择
           //console.log(this.itemContent.background_color);
       },
+      dialogEvent(ev){
+        this.recordIndex  = ev;
+        this.dialogTableVisible = true;
+        this.imageUrl = null;
+        console.log(this.recordIndex)
+      },
+      handleAvatarSuccess(res, file) {
+        //console.log(res);
+        if(res.code ==10000){
+            this.imageUrl = res.data;
+        }else{
+          this.$message({
+            type: 'error',
+            message: '上传失败'
+          });
+        }
+        
+      },
+      beforeAvatarUpload(file) {
+        let isIMAGE;
+        let tyleList = this.typeList;
+        if (tyleList) {
+          for (let i = 0; i < tyleList.length; i++) {
+            if (file.type === tyleList[i]) isIMAGE = true;
+          }
+        }
+        //console.log(file)
+      },
+      btnEvent(){//确定使用图片
+        this.itemContent.component_detail.image_list[this.recordIndex].image_url = this.imageUrl;
+        this.dialogTableVisible = false;
+      },
+      openDelete(index){//删除组件
+        if(this.itemContent.component_detail.image_list.length>1){
+          this.$confirm('确定删除吗？', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+          }).then(() => {
+            console.log(index)
+            this.itemContent.component_detail.image_list.splice(index,1)
+          }).catch(() => {
+                      
+          });
+        }else{
+          this.$message({
+            message: '至少保留一个',
+            type: 'warning'
+          });
+        }
+       
+      },
+      openAdd(){
+        this.itemContent.component_detail.image_list.push(this.newImg)
+      }
     }
 }
 </script>
@@ -80,7 +162,7 @@ export default {
 <style lang="less" scoped>
 .first-items{
   margin: 0 14px;
-
+  
   .first-item{
     height: auto;
     background: #fff;
@@ -91,33 +173,13 @@ export default {
     overflow: hidden;
     display: flex;
     display: -webkit-flex;
-    .btn-del{
-      height: 0;
-      width: 100%;
-      display: block;
-      position: relative;
-      &:before{
-        content: "×";
-        position: absolute;
-        height: 16px;
-        width: 16px;
-        text-align: center;
-        line-height: 14px;
-        color: #fff;
-        cursor: pointer;
-        background: rgba(0,0,0,0.3);
-        border-radius: 16px;
-        top: -6px;
-        right: -6px;
-        z-index: 10;
-      }
-    }
+    position: relative;
 
     .item-image{
       height: 70px;
       width: auto;
       min-width: 40px;
-      max-width: 130px;
+      width: 130px;
       background: #eee;
       float: left;
       margin-right: 10px;
@@ -128,16 +190,56 @@ export default {
           vertical-align: middle;
           height: 68px;
           width: auto;
-          max-width: 130px;
+          width: 130px;
           display: block;
           border: none;
       }
     }
     .item-form{
+      width: 290px;
+      max-width: 380px;
+      width:70%;
       height: auto;
       display: block;
       overflow: hidden;
     }
+    .btn-del{
+      height: 0;
+      width: 18px;
+      display: block;
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      z-index: 10000;
+      color: #999999;
+      font-size: 18px;
+    }
   }
+}
+.avatar-uploader {
+  .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  &:hover{
+      border-color: #409eff;
+  }
+}
+.avatar-uploader-icon{
+  font-size: 28px;
+  color: #8c939d;
+  width: 100px;
+  height: 100px;
+  line-height: 100px !important;
+  background: rgb(250, 250, 250);
+  text-align: center;
+}
+.avatar {
+  width: 100px;
+  height: 100px;
+  display: block;
 }
 </style>

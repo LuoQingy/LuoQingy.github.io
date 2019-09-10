@@ -78,27 +78,27 @@ export default {
       }
   }
   .windowFirst{
-    height: 152px;
+    height: 4.86rem;
     width: 50%;
   }
   .windowSecond{
     width: 50%;
-    height: 76px;
+    height: 2.43rem;
   }
   .windowThird{
     width: 25%;
-    height: 76px;
+    height: 2.43rem;
   }
   .two_column{
-    height: 152px;
+    height: 4.86rem;
     width: 50%;
   }
   .three_column{
-    height: 101px;
+    height:3.23rem;
     width: 33.3%;
   }
   .four_column{
-    height: 76px;
+    height: 2.43rem;
     width: 25%;
   }
 }

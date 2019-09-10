@@ -11,8 +11,11 @@ Vue.use(ElementUI, {size: 'small'});
 let baseUrl = '';
 if(process.env.NODE_ENV === 'development'){
     baseUrl = ''
-    
+    Vue.prototype.$baseUrl = ''
+}else{
+    Vue.prototype.$baseUrl = 'http://diy.lssnst.com/index.php'
 }
+
 //'http://diy.lssnst.com/index.php/mobile/index/index?pageId=1'
 Vue.prototype.$http = Axios.create({
     baseURL:baseUrl

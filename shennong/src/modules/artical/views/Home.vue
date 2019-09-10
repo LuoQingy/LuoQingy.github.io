@@ -17,7 +17,7 @@
                     <div :is="item.component_type|getPage" :itemContent='item'></div>  
                     <div class="btn-edit-del">
                         <span>编辑</span>
-                        <span>删除</span>
+                        <span @click="openDelete(index)">删除</span>
                     </div>
                   </div>
                 </template>
@@ -28,8 +28,6 @@
             <div class="phone-foot"> </div>
           </div>
         </div>
-
-        
 
         <div class="pc-editor" :style="'margin-top:'+marginTop">
           <div class="all-component" >
@@ -44,6 +42,21 @@
             </template>
           </div>
         </div>
+
+
+        <div class="footer-compont">
+          <div class="module-item">
+            <el-button icon="el-icon-s-tools" @click="selectEvent(0)">页面设置</el-button>
+            <el-button icon="el-icon-plus" @click="addList('single_image_group')">单图组</el-button>
+            <el-button icon="el-icon-plus" @click="addList('image_window_group')">图片橱窗</el-button>
+            <el-button icon="el-icon-plus" @click="addList('image_unfold_group')">图片展播</el-button>
+          </div>
+          <div class="subit-item">
+            <el-button type="warning" @click="saveAsEvent">另存为模板</el-button>
+            <el-button type="success" @click="saveEvent">保存模板</el-button>
+            
+          </div>
+        </div>
     </div>
 </template>
   
@@ -51,11 +64,13 @@
 import titleComponent from "@/modules/artical/components/title-component.vue"
 import editTitle from "@/modules/artical/components/edit-title.vue"
 import singleImageGroup from "@/modules/artical/components/single-image-group.vue"
-import editSingleImageGroup from "@/modules/artical/components/edit-single-image-group.vue"
+
 import imageWindowGroup from "@/modules/artical/components/image-window-group.vue"
-import editImageWindowGroup from "@/modules/artical/components/edit-image-window-group.vue"
+
 import imageUnfoldGroup from "@/modules/artical/components/image-unfold-group.vue"
+import editImageWindowGroup from "@/modules/artical/components/edit-image-window-group.vue"
 import editImageUnfoldGroup from  "@/modules/artical/components/edit-image-unfold-group.vue"
+import editSingleImageGroup from "@/modules/artical/components/edit-single-image-group.vue"
 export default {
   
   components: {
@@ -65,63 +80,70 @@ export default {
   },
   data() {
     return {
+      pageId:null,
       form: {
-        name: '乐山神农生态馆',
-        title:'乐山神农生态农场',
+        name: '未命名页面',
+        title:'请输入页面标题',
         color:'#fafafa',
         color1:'#fafafa'
       },
-      listCompontent:[
-        {
-          "component_type": "single_image_group", //单图组
-          "margin_top_bottom": 0,
-          "margin_left_right":0,
-          "background_color":"#ffffff",
-          "layout":null,
-          "rank":1,//排序值，越小越在前
-          "component_detail":{
-            'image_list':[
-              {'image_url':require('./../../../assets/image/shen1.gif'),'to_url':'assets/image/shen1.gif'},
-              {'image_url':require('./../../../assets/image/shen2.jpg'),'to_url':'assets/image/shen1.gif'}
-            ]
-          }
-        },
-        {
-          "component_type": "image_window_group",//图片橱窗
-          "margin_top_bottom": 0,
-          "margin_left_right":0,
-          "background_color":"#ffffff",
-          "layout":'three_column',
-          "rank":2,//排序值，越小越在前
-          "component_detail":{
-            'image_list':[
-              {'image_url':require('./../../../assets/image/shen3.gif'),'to_url':'assets/image/shen3.gif'},
-              {'image_url':require('./../../../assets/image/shen4.gif'),'to_url':'assets/image/shen4.gif'},
-              {'image_url':require('./../../../assets/image/shen5.jpg'),'to_url':'assets/image/shen5.jpg'},
-            ]
-          }
-        },
-        {
-          "component_type": "image_unfold_group",//图片展播
-          "margin_top_bottom": 0,
-          "margin_left_right":0,
-          "background_color":"#ffffff",
-          "layout":'three_column',
-          "rank":1,//排序值，越小越在前
-          "component_detail":{
-            'image_list':[
-              {'image_url':require('./../../../assets/image/shen6.gif'),'to_url':'assets/image/shen6.gif'},
-              {'image_url':require('./../../../assets/image/shen7.jpg'),'to_url':'assets/image/shen7.gif'},
-            ]
-          }
-        },
-      ],
+      listCompontent:[],//组件列表
+      getPageList:[],//获取的原来的组件列表
+      single_image_group:{
+        "component_type": "single_image_group", //单图组
+        "margin_top_bottom": 0,
+        "margin_left_right":0,
+        "background_color":"#ffffff",
+        "layout":null,
+        "rank":1,//排序值，越小越在前
+        "component_detail":{
+          'image_list':[
+            {'image_url':require('./../../../assets/image/shen1.gif'),'to_url':'assets/image/shen1.gif'},
+            {'image_url':require('./../../../assets/image/shen2.jpg'),'to_url':'assets/image/shen1.gif'}
+          ]
+        }
+      },
+
+      image_window_group:{
+        "component_type": "image_window_group",//图片橱窗
+        "margin_top_bottom": 0,
+        "margin_left_right":0,
+        "background_color":"#ffffff",
+        "layout":'three_column',
+        "rank":2,//排序值，越小越在前
+        "component_detail":{
+          'image_list':[
+            {'image_url':require('./../../../assets/image/shen3.gif'),'to_url':'assets/image/shen3.gif'},
+            {'image_url':require('./../../../assets/image/shen4.gif'),'to_url':'assets/image/shen4.gif'},
+            {'image_url':require('./../../../assets/image/shen5.jpg'),'to_url':'assets/image/shen5.jpg'},
+          ]
+        }
+      },
+
+      image_unfold_group:{
+        "component_type": "image_unfold_group",//图片展播
+        "margin_top_bottom": 0,
+        "margin_left_right":1,
+        "background_color":"#ffffff",
+        "layout":'three_column',
+        "rank":3,//排序值，越小越在前
+        "component_detail":{
+          'top_title_color':'#ffffff',
+          'bottom_title_color':'#666666',
+          'top_title_align':'left',
+          'bottom_title_align':'center',
+          'image_list':[
+              {'image_url':require('./../../../assets/image/9.jpg'),'to_url':'assets/image/9.jpg','top_title':'','bottom_title':'下标题'},
+              {'image_url':require('./../../../assets/image/11.jpg'),'to_url':'assets/image/11.jpg','top_title':'','bottom_title':'下标题'},
+              {'image_url':require('./../../../assets/image/10.jpg'),'to_url':'assets/image/10.jpg','top_title':'','bottom_title':'下标题'}
+          ]
+        }
+      },
+
       allBackground:'#fafafa',//全局背景色
       marginTop:'55px',//编辑的顶部高度
       controlList:[
         {className:'',check:true,existCheck:true},
-        {className:'',check:false,existCheck:true},
-        {className:'',check:false,existCheck:true},
         {className:'',check:false,existCheck:true},
       ],
     };
@@ -167,9 +189,176 @@ export default {
       this.controlList[ev].check = true;
     },
 
+    saveAsEvent(){//另存为模板
+      let list  = JSON.parse(JSON.stringify(this.listCompontent))
+      list.forEach((item,index) => {
+        //console.log(item.component_detail)
+        delete item.id;
+        delete item.page_id;
+        delete item.page_name;
+        delete item.page_title;
+        item.component_detail = JSON.stringify(item.component_detail)
+        //console.log(item.component_detail)
+      });
+      let data = {
+        page_name:this.form.name,
+        page_title:this.form.title,
+        components:list
+      }
+      console.log(data)
+      this.$http({
+        url: '/admin/page/add',
+        method: 'post',
+        data:data
+      }).then((res)=>{
+        if(res.data.code==10000){
+          this.$message({
+            type: 'success',
+            message: '保存成功!'
+          });
+        }else{
+          this.$message({
+            type: 'err',
+            message: '保存失败!'
+          });
+        }
+        //console.log(res.data.data)
+      }).catch((err)=>{
+          console.log(err)
+      })
+    },
+
+    saveEvent(){//保存模板
+      if(this.pageId){
+        this.updateEvent()
+      }else{
+        this.component_typesaveAsEvent()
+      }
+    },
+
+    updateEvent(){//更新页面
+      let list  = JSON.parse(JSON.stringify(this.listCompontent))
+      let allList = [];
+      let updateList = [];
+      let deleteList = [];
+      list.forEach((item,index) => {
+        //console.log(item.component_detail)
+        let flag = false;
+        this.getPageList.forEach((ev,second) => {
+          if(item.id == ev.id){
+            flag = true;
+          }
+        });
+        item.component_detail = JSON.stringify(item.component_detail)
+        if(flag){
+          updateList.push(item)
+        }else{
+          allList.push(item)
+        }
+        //console.log(item.component_detail)
+      });
+      console.log( this.getPageList)
+      this.getPageList.forEach((ev,second) => {
+        let flag = false;
+        updateList.forEach((item,index) => {
+          if(item.id == ev.id){
+            flag = true;
+          }
+        });
+        if(!flag){
+          deleteList.push({id:ev.id})
+        }
+        
+      });
+
+      let data = {
+        id:this.pageId,
+        page_name:this.form.name,
+        page_title:this.form.title,
+        add_components:allList,
+        update_components:updateList,
+        delete_components:deleteList
+      }
+      console.log(data)
+      // return;
+      this.$http({
+        url: '/admin/page/update',
+        method: 'post',
+        data:data
+      }).then((res)=>{
+        if(res.data.code==10000){
+          this.$message({
+            type: 'success',
+            message: '保存成功!'
+          });
+        }else{
+          this.$message({
+            type: 'err',
+            message: '保存失败!'
+          });
+        }
+        console.log(res.data.data)
+      }).catch((err)=>{
+          console.log(err)
+      })
+    },
+
+    getPage(pageId){//获取页面的详情
+      this.$http({
+        url: '/admin/page/get',
+        method: 'post',
+        data:{"pageId": pageId,}
+      }).then((res)=>{
+        if(res.data.code==10000){
+          this.pageId = res.data.data.id;
+          this.form.name = res.data.data.page_name;
+          this.form.title = res.data.data.page_title;
+          this.listCompontent = [];
+          res.data.data.componentes.forEach((item,index) => {
+            item.component_detail = JSON.parse(item.component_detail)
+            this.listCompontent.push(item)
+            this.controlList.push({className:'',check:false,existCheck:true})
+          });
+          
+          this.getPageList = JSON.parse(JSON.stringify(res.data.data.componentes))
+        }
+        console.log(res.data.data)
+      }).catch((err)=>{
+          console.log(err)
+      })
+    },
+
+    addList(ev){//添加组件
+      this.listCompontent.forEach((item,index) => {
+        item.rank = index+1;
+      });
+      this[ev].rank = this.listCompontent.length+1;
+      console.log(this[ev].component_type,this[ev].rank)
+      let item = JSON.parse(JSON.stringify(this[ev]))
+      this.listCompontent.push(item)
+      this.controlList.push({className:'',check:false,existCheck:true})
+    },
+
+    openDelete(index){//删除组件
+      this.$confirm('确定删除吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+      }).then(() => {
+        console.log(index)
+        this.listCompontent.splice(index,1)
+        this.selectEvent(index)
+      }).catch(() => {
+                  
+      });
+    },
   },
   mounted() {
-   
+    if(this.$route.query.pageId){
+      
+      this.pageId = Number(this.$route.query.pageId)
+      console.log(this.pageId)
+      this.getPage(this.pageId )
+    }
   },
   filters: {
     getCom(id) {
@@ -401,6 +590,30 @@ export default {
         display: flex;
         display: -webkit-flex;
       }
+    }
+  }
+
+  .footer-compont{
+    width: 840px;
+    height: 130px;
+    position: fixed;
+    border: 1px solid #DCDFE6;
+    border-bottom: none;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    bottom: 0px;
+    margin: 0 auto;
+    overflow: hidden;
+    background: #ffffff;
+    z-index: 100000;
+    .module-item{
+      padding: 15px 30px;
+      border-bottom: 1px dashed #DCDFE6;
+    }
+    .subit-item{
+      
+      padding: 15px 30px;
+      float:right;
     }
   }
 }
