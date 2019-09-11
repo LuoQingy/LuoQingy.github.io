@@ -52,8 +52,8 @@
             <el-button icon="el-icon-plus" @click="addList('image_unfold_group')">图片展播</el-button>
           </div>
           <div class="subit-item">
-            <el-button type="warning" @click="saveAsEvent">另存为模板</el-button>
-            <el-button type="success" @click="saveEvent">保存模板</el-button>
+            <!-- <el-button type="warning" @click="saveAsEvent">另存为模板</el-button> -->
+            <el-button type="success" @click="saveEvent">保存</el-button>
             
           </div>
         </div>
@@ -98,8 +98,8 @@ export default {
         "rank":1,//排序值，越小越在前
         "component_detail":{
           'image_list':[
-            {'image_url':require('./../../../assets/image/shen1.gif'),'to_url':'assets/image/shen1.gif'},
-            {'image_url':require('./../../../assets/image/shen2.jpg'),'to_url':'assets/image/shen1.gif'}
+            {'image_url':'http://diy.lssnst.com/img/shen1.78bf7dbc.gif','to_url':'http://diy.lssnst.com/img/shen1.78bf7dbc.gif'},
+            {'image_url':'http://diy.lssnst.com/img/shen2.483b665e.jpg','to_url':'http://diy.lssnst.com/img/shen2.483b665e.jpg'}
           ]
         }
       },
@@ -113,9 +113,9 @@ export default {
         "rank":2,//排序值，越小越在前
         "component_detail":{
           'image_list':[
-            {'image_url':require('./../../../assets/image/shen3.gif'),'to_url':'assets/image/shen3.gif'},
-            {'image_url':require('./../../../assets/image/shen4.gif'),'to_url':'assets/image/shen4.gif'},
-            {'image_url':require('./../../../assets/image/shen5.jpg'),'to_url':'assets/image/shen5.jpg'},
+            {'image_url':'http://diy.lssnst.com/img/shen3.0b501a48.gif','to_url':'http://diy.lssnst.com/img/shen3.0b501a48.gif'},
+            {'image_url':'http://diy.lssnst.com/img/shen4.ce0ae355.gif','to_url':'http://diy.lssnst.com/img/shen4.ce0ae355.gif'},
+            {'image_url':'http://diy.lssnst.com/img/shen5.eb8ea2e4.jpg','to_url':'http://diy.lssnst.com/img/shen5.eb8ea2e4.jpg'},
           ]
         }
       },
@@ -133,9 +133,17 @@ export default {
           'top_title_align':'left',
           'bottom_title_align':'center',
           'image_list':[
-              {'image_url':require('./../../../assets/image/9.jpg'),'to_url':'assets/image/9.jpg','top_title':'','bottom_title':'下标题'},
-              {'image_url':require('./../../../assets/image/11.jpg'),'to_url':'assets/image/11.jpg','top_title':'','bottom_title':'下标题'},
-              {'image_url':require('./../../../assets/image/10.jpg'),'to_url':'assets/image/10.jpg','top_title':'','bottom_title':'下标题'}
+              {'image_url':'http://diy.lssnst.com/img/9.e244e45b.jpg',
+              'to_url':'http://diy.lssnst.com/img/9.e244e45b.jpg',
+              'top_title':'','bottom_title':'下标题'},
+
+              {'image_url':'http://diy.lssnst.com/img/11.dac8a190.jpg',
+              'to_url':'http://diy.lssnst.com/img/11.dac8a190.jpg',
+              'top_title':'','bottom_title':'下标题'},
+
+              {'image_url':'http://diy.lssnst.com/img/10.ba57eb99.jpg',
+              'to_url':'http://diy.lssnst.com/img/10.ba57eb99.jpg',
+              'top_title':'','bottom_title':'下标题'}
           ]
         }
       },
@@ -216,6 +224,9 @@ export default {
             type: 'success',
             message: '保存成功!'
           });
+          this.$router.push({
+            name: 'pagemanagement',
+          })
         }else{
           this.$message({
             type: 'err',
@@ -232,7 +243,7 @@ export default {
       if(this.pageId){
         this.updateEvent()
       }else{
-        this.component_typesaveAsEvent()
+        this.saveAsEvent()
       }
     },
 
@@ -291,6 +302,9 @@ export default {
             type: 'success',
             message: '保存成功!'
           });
+          this.$router.push({
+            name: 'pagemanagement',
+          })
         }else{
           this.$message({
             type: 'err',
@@ -594,7 +608,7 @@ export default {
   }
 
   .footer-compont{
-    width: 840px;
+    width: 800px;
     height: 130px;
     position: fixed;
     border: 1px solid #DCDFE6;

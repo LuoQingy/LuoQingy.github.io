@@ -21,7 +21,13 @@ const routes = [
             }
         ]
     },
-    { path: '*', redirect: '/home/index', hidden: true }
+    {
+        path: '/404',
+        component: () => import('@/modules/index/views/404'),
+        name: 'Page404',
+        meta: { title: '404', noCache: true }
+    },
+    { path: '*', redirect: '/404', hidden: true }
 ]
 
 export default new VueRouter({

@@ -1,10 +1,9 @@
 <template>
   <div >
-    <ul class="fui-picture" :style="top_bottomEvent">
-      <li v-for="(item,index) in itemContent.component_detail.image_list" @click="routerTo(to_url)" :style="paddingEvent" :key="index" >
-        <img :src="item.image_url" alt="">
-      </li>
-    </ul>
+    <div class="fui-picture" :style="top_bottomEvent">
+      <div v-for="(item,index) in itemContent.component_detail.image_list" @click="routerTo(item.to_url)" :style="paddingEvent" :key="index" >
+        <img :src="item.image_url" alt=""></div>
+    </div>
   </div>
 </template>
 
@@ -45,13 +44,21 @@ export default {
     padding: 0;
     height: auto;
     overflow: hidden;
-    li{
+    div{
       list-style: none;
+      overflow: hidden;
+      font-size: 0;
     }
-    li img{
-      display: block;
+    div img{
       width: 100%;
-      
+      margin:0;
+      border: 0 !important;
+      // 更改img为block，无法解决问题
+      // 不更改display属性，按照如下属性也无法解决问题
+      line-height: 0;
+      vertical-align: middle;
+      margin-top: -1px;
+      overflow: hidden;
     }
   }
 </style>

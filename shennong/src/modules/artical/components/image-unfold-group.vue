@@ -124,6 +124,9 @@ export default {
        height: 135px;
      }
   }
+  .three_column:nth-of-type(1){
+    width: 33.4%;
+  }
   .four_column{
     height: 122px;
     width: 25%;

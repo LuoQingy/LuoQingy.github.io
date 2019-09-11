@@ -1,8 +1,8 @@
 <template>
   <div >
     <div class="fui-picture"  :style="top_bottomEvent" :class="(itemContent.component_detail.image_list.length>4&&itemContent.layout=='window')?'new-fui-picture':''">
-      <div v-for="(item,index) in itemContent.component_detail.image_list" :class="className(index)" class="item" @click="routerTo(to_url)"  :style="paddingEvent" :key="index" >
-        <img :src="item.image_url" v-if="item.image_url" alt="">
+      <div v-for="(item,index) in itemContent.component_detail.image_list" :class="className(index)" class="item" @click="routerTo(item.to_url)"  :style="paddingEvent" :key="index" >
+        <img :src="item.image_url" v-if="item.image_url" />
       </div>
     </div>
   </div>
@@ -68,16 +68,33 @@ export default {
   height: auto;
   display: block;
   overflow: hidden;
+  margin: 0 auto;
+  margin-top: -1px;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box; 
   .item{
     position: relative;
     display: block;
     float: left;
     box-sizing: border-box;
     -webkit-box-sizing: border-box; 
+    font-size: 0;
+    overflow: hidden;
+    line-height: 0;
     img{
-        display: block;
         width: 100%;
         height: 100%;
+        margin:0;
+        // 更改img为block，无法解决问题
+        // 不更改display属性，按照如下属性也无法解决问题
+        line-height: 0;
+        vertical-align: middle;
+        overflow: hidden;
+        border-style:none;
+        border-width:0;
+        box-sizing: border-box;
+        -webkit-box-sizing: border-box; 
+        // 
       }
   }
   .windowFirst{
@@ -98,7 +115,10 @@ export default {
   }
   .three_column{
     height:3.23rem;
-    width: 33.3%;
+    width:3.33rem;
+  }
+  .three_column:nth-of-type(1){
+    width:3.34rem;
   }
   .four_column{
     height: 2.43rem;

@@ -1,7 +1,7 @@
 <template>
   <div >
     <div class="fui-picture"  :style="top_bottomEvent" >
-      <div v-for="(item,index) in itemContent.component_detail.image_list" :class="className(index)" class="item"  @click="routerTo(to_url)"  :style="paddingEvent" :key="index" >
+      <div v-for="(item,index) in itemContent.component_detail.image_list" :class="className(index)" class="item" @click="routerTo(item.to_url)"  :style="paddingEvent" :key="index" >
         <div class="image">
             <img :src="item.image_url" v-if="item.image_url" alt="">
             <div v-if="item.top_title" :style="topTitleEvent">{{item.top_title}}</div>
@@ -65,6 +65,7 @@ export default {
   height: auto;
   display: block;
   overflow: hidden;
+  margin-top: -1px;
   .item{
     position: relative;
     display: block;
@@ -79,9 +80,11 @@ export default {
       text-overflow:ellipsis;
       white-space: nowrap;
       img{
-        display: block;
         width: 100%;
         height: 100%;
+        vertical-align: middle;
+        border: 0 !important;
+        overflow: hidden;
       }
       div{
         position: absolute;
@@ -122,10 +125,14 @@ export default {
   }
   .three_column{
     height: 5rem;
-    width: 33.3%;
+    width:3.33rem;
     .image{
        height:calc(5rem - 22px);
      }
+
+  }
+  .three_column:nth-of-type(1){
+    width:3.34rem;
   }
   .four_column{
     height: 3.9rem;

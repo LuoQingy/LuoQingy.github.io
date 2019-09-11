@@ -97,6 +97,11 @@ export default {
     height: 101px;
     width: 33.3%;
   }
+  .three_column:nth-of-type(1){
+    width: 33.4%;
+  }
+
+  
   .four_column{
     height: 76px;
     width: 25%;

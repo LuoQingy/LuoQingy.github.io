@@ -39,7 +39,9 @@ export default {
   right: 0px;
   height: 100%;
   padding: 10px 10px 30px;
+    overflow: hidden;
   overflow-y: scroll;
+
   box-sizing: border-box;
 
 }
