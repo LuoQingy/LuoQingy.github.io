@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0c1196"],{4532:function(n,e,t){"use strict";t.r(e);var c=function(){var n=this,e=n.$createElement,t=n._self._c||e;return t("div",[n._v(" 数据报表 ")])},u=[],a={data:function(){return{}}},r=a,i=t("e90a"),o=Object(i["a"])(r,c,u,!1,null,"0c229844",null);e["default"]=o.exports}}]);
-//# sourceMappingURL=chunk-2d0c1196.fb9a0205.js.map

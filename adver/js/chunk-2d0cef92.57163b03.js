@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0cef92"],{6277:function(e,n,t){"use strict";t.r(n);var c=function(){var e=this,n=e.$createElement,t=e._self._c||n;return t("div",[e._v(" 个人中心 ")])},u=[],a={data:function(){return{}}},r=a,d=t("e90a"),i=Object(d["a"])(r,c,u,!1,null,"1ddfd4e8",null);n["default"]=i.exports}}]);
-//# sourceMappingURL=chunk-2d0cef92.57163b03.js.map

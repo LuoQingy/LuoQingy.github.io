@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0c0dca"],{"441e":function(e,n,c){"use strict";c.r(n);var t=function(){var e=this,n=e.$createElement,c=e._self._c||n;return c("div",[e._v(" 首页 ")])},a=[],u={},r=u,s=c("e90a"),i=Object(s["a"])(r,t,a,!1,null,"720933ec",null);n["default"]=i.exports}}]);
-//# sourceMappingURL=chunk-2d0c0dca.90885859.js.map
